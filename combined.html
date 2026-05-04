@@ -1,0 +1,692 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Healthcare System</title>
+<style>
+    body {
+        background: #0a0a0a;
+        color: white;
+        font-family: Arial;
+        margin: 0;
+    }
+
+    /* NAVBAR */
+    .navbar {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 15px 40px;
+        background: #111;
+        border-bottom: 1px solid #333;
+    }
+
+    .logo {
+        font-size: 22px;
+        font-weight: bold;
+        cursor: pointer;
+    }
+
+    .nav-links a {
+        color: white;
+        margin-left: 20px;
+        text-decoration: none;
+        cursor: pointer;
+        transition: 0.3s;
+    }
+
+    .nav-links a:hover {
+        color: #00e676;
+    }
+
+    /* PAGE HANDLING */
+    .page { display: none; }
+    .page.active { display: block; }
+
+    /* HOME */
+    .main {
+        text-align: center;
+        margin-top: 40px;
+    }
+
+    .cards {
+        display: flex;
+        justify-content: center;
+        gap: 20px;
+        flex-wrap: wrap;
+        margin-top: 40px;
+    }
+
+    .box {
+        background: #1c1c1c;
+        padding: 30px;
+        border-radius: 15px;
+        width: 250px;
+        text-align: center;
+        transition: 0.3s;
+    }
+
+    .box:hover {
+        transform: scale(1.05);
+        box-shadow: 0 0 20px rgba(255,255,255,0.2);
+    }
+
+    button, .btn {
+        margin-top: 10px;
+        padding: 10px 20px;
+        border: 1px solid white;
+        background: transparent;
+        color: white;
+        border-radius: 8px;
+        cursor: pointer;
+        text-decoration: none;
+        display: inline-block;
+        transition: 0.3s;
+        font-size: 14px;
+    }
+
+    button:hover, .btn:hover {
+        background: white;
+        color: black;
+        transform: scale(1.05);
+    }
+
+    .section {
+        text-align: center;
+        margin-top: 60px;
+    }
+
+    .steps {
+        display: flex;
+        justify-content: center;
+        gap: 30px;
+        flex-wrap: wrap;
+        margin-top: 20px;
+    }
+
+    .step {
+        background: #1c1c1c;
+        padding: 20px;
+        border-radius: 12px;
+        width: 200px;
+        transition: 0.3s;
+    }
+
+    .step:hover {
+        transform: scale(1.05);
+        box-shadow: 0 0 15px rgba(255,255,255,0.2);
+    }
+
+    /* CONTAINER */
+    .container {
+        max-width: 1000px;
+        margin: auto;
+        padding: 40px;
+    }
+
+    h1 { font-size: 45px; margin-bottom: 10px; }
+    h2 { margin-top: 40px; color: #00e676; }
+    p  { color: #ccc; line-height: 1.6; }
+    ul { color: #ccc; }
+
+    .info-box {
+        background: #1c1c1c;
+        padding: 20px;
+        border-radius: 12px;
+        margin-top: 20px;
+        transition: 0.3s;
+    }
+
+    .info-box:hover {
+        transform: scale(1.02);
+        box-shadow: 0 0 15px #00e676;
+    }
+
+    /* HEALTH PAGE */
+    .form-container {
+        max-width: 900px;
+        margin: auto;
+        text-align: center;
+    }
+
+    input, select {
+        padding: 10px;
+        margin: 10px;
+        border-radius: 6px;
+        border: none;
+        background: #1e1e1e;
+        color: white;
+    }
+
+    .symptom-grid {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 15px;
+        margin-top: 20px;
+    }
+
+    .symptom-grid label {
+        background: #1e1e1e;
+        padding: 10px;
+        border-radius: 8px;
+        cursor: pointer;
+        transition: 0.3s;
+    }
+
+    .symptom-grid label:hover {
+        background: #333;
+    }
+
+    /* FORM BOX (BMI / DIET) */
+    .form-box {
+        background: #1c1c1c;
+        padding: 40px;
+        border-radius: 15px;
+        width: 400px;
+        margin: 50px auto;
+        text-align: center;
+        transition: 0.3s;
+    }
+
+    .form-box:hover { transform: scale(1.03); }
+
+    .form-box input, .form-box select {
+        width: 80%;
+        padding: 10px;
+        margin: 15px;
+        border-radius: 8px;
+        border: none;
+        background: #333;
+        color: white;
+    }
+
+    /* RESULT BOXES */
+    .result-box {
+        background: #1c1c1c;
+        padding: 30px;
+        border-radius: 15px;
+        width: 500px;
+        margin: 50px auto;
+        animation: fadeIn 0.6s ease;
+    }
+
+    .result-section {
+        margin-top: 20px;
+        text-align: left;
+    }
+
+    .bmi-result-box {
+        margin-top: 25px;
+        padding: 20px;
+        border-radius: 10px;
+        animation: fadeIn 0.6s ease;
+    }
+
+    @keyframes fadeIn {
+        from { opacity: 0; transform: translateY(20px); }
+        to   { opacity: 1; }
+    }
+
+    /* STORE */
+    .store-container {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 25px;
+        margin: 40px;
+    }
+
+    .card {
+        background: #1c1c1c;
+        padding: 20px;
+        border-radius: 15px;
+        width: 260px;
+        transition: 0.3s;
+    }
+
+    .card:hover {
+        transform: scale(1.05);
+        box-shadow: 0 0 15px rgba(255,255,255,0.2);
+    }
+
+    .card h3 { margin-bottom: 10px; }
+    .card p  { color: #ccc; font-size: 14px; }
+</style>
+</head>
+<body>
+
+<!-- ============ NAVBAR ============ -->
+<div class="navbar">
+    <div class="logo" onclick="showPage('home')">💙 PredictCare</div>
+    <div class="nav-links">
+        <a onclick="showPage('home')">Home</a>
+        <a onclick="showPage('about')">About</a>
+        <a onclick="showPage('guide')">Guide</a>
+        <a onclick="showPage('store')">Store</a>
+    </div>
+</div>
+
+<!-- ============ HOME ============ -->
+<div id="home" class="page active">
+    <div class="main">
+        <h1>Healthcare System 💙</h1>
+        <p>
+            A smart system that analyzes symptoms and health data to predict diseases,<br>
+            determine risk level and suggest personalized diet and lifestyle improvements.
+        </p>
+    </div>
+
+    <div class="cards">
+        <div class="box">
+            <h3>🩺 Health Checkup</h3>
+            <p>Check disease based on symptoms</p>
+            <button onclick="showPage('health')">Start</button>
+        </div>
+        <div class="box">
+            <h3>🍎 Diet Analyzer</h3>
+            <p>Upload food image &amp; get nutrition</p>
+            <button onclick="showPage('diet')">Try Now</button>
+        </div>
+        <div class="box">
+            <h3>⚖️ Body Check</h3>
+            <p>Check BMI using height &amp; weight</p>
+            <button onclick="showPage('bmi')">Check</button>
+        </div>
+    </div>
+
+    <div class="section">
+        <h2>How It Works ⚙️</h2>
+        <div class="steps">
+            <div class="step"><h3>1️⃣ Input</h3><p>Enter your health data</p></div>
+            <div class="step"><h3>2️⃣ Analysis</h3><p>System analyzes your data</p></div>
+            <div class="step"><h3>3️⃣ Result</h3><p>Get health insights</p></div>
+        </div>
+    </div>
+
+    <div class="section">
+        <h2>Ready to Get Started? 🚀</h2>
+        <p>Take the first step towards better health</p>
+    </div>
+</div>
+
+<!-- ============ ABOUT ============ -->
+<div id="about" class="page">
+    <div class="container">
+        <h1>About my Healthcare System</h1>
+        <p>
+            This project is a smart healthcare platform designed to help users understand their health
+            using simple inputs like symptoms, food images, and body measurements.
+            It uses logical models and AI-based concepts to generate useful health insights.
+        </p>
+
+        <h2>🚀 Features</h2>
+        <div class="info-box">
+            <h3>🩺 Health Checkup</h3>
+            <p>Analyze symptoms and predict possible diseases with risk level and suggestions.</p>
+        </div>
+        <div class="info-box">
+            <h3>🍎 Diet Analyzer</h3>
+            <p>Upload food images and get nutrition details like protein, carbs, fiber, and calories.</p>
+        </div>
+        <div class="info-box">
+            <h3>⚖️ Body Check (BMI)</h3>
+            <p>Check your BMI using height and weight and get personalized suggestions.</p>
+        </div>
+
+        <h2>⚙️ How It Works</h2>
+        <ul>
+            <li>User enters data (symptoms, food, body details)</li>
+            <li>System analyzes inputs using logic</li>
+            <li>Predictions and suggestions are generated</li>
+            <li>User gets easy-to-understand results</li>
+        </ul>
+
+        <h2>💻 Technologies Used</h2>
+        <ul>
+            <li>Python (Flask)</li>
+            <li>HTML, CSS</li>
+            <li>Basic AI Logic</li>
+        </ul>
+
+        <h2>🎯 Purpose</h2>
+        <p>
+            The main goal of this project is to make health awareness simple and accessible.
+            It helps users take early steps towards better health by understanding their body.
+        </p>
+    </div>
+</div>
+
+<!-- ============ GUIDE ============ -->
+<div id="guide" class="page">
+    <div class="container">
+        <h1>📖 User Guide</h1>
+        <p>This guide will help you understand how to use each feature of the Healthcare System step by step.</p>
+
+        <h2>🩺 Health Checkup Guide</h2>
+        <div class="info-box">
+            <p>👉 Enter your age</p>
+            <p>👉 Select symptoms (like fever, headache, etc.)</p>
+            <p>👉 Choose duration of symptoms</p>
+            <p>👉 Click <b>Analyze</b></p>
+            <p>👉 Get disease prediction, risk level &amp; suggestions</p>
+        </div>
+
+        <h2>🍎 Diet Analyzer Guide</h2>
+        <div class="info-box">
+            <p>👉 Upload food image</p>
+            <p>👉 Select food type from dropdown</p>
+            <p>👉 Click <b>Analyze Food</b></p>
+            <p>👉 Get nutrition details (protein, carbs, fiber, calories)</p>
+            <p>👉 Get diet suggestions</p>
+        </div>
+
+        <h2>⚖️ Body Check (BMI) Guide</h2>
+        <div class="info-box">
+            <p>👉 Enter your height (in cm)</p>
+            <p>👉 Enter your weight (in kg)</p>
+            <p>👉 Click <b>Check BMI</b></p>
+            <p>👉 Get BMI value + health category</p>
+            <p>👉 Receive fitness suggestions</p>
+        </div>
+
+        <h2>💡 Tips for Best Results</h2>
+        <ul>
+            <li>✔ Enter correct data for accurate results</li>
+            <li>✔ Select appropriate symptoms</li>
+            <li>✔ Choose correct food type</li>
+            <li>✔ Use this system for awareness, not medical diagnosis</li>
+        </ul>
+
+        <h2>⚠️ Important Note</h2>
+        <p>
+            This system provides predictions based on logic and AI concepts. It is not a substitute for professional medical advice.
+            Always consult a doctor for serious health conditions.
+        </p>
+    </div>
+</div>
+
+<!-- ============ STORE ============ -->
+<div id="store" class="page">
+    <h1 style="text-align:center; margin-top:30px;">🛒 Smart Health Store</h1>
+    <div class="store-container">
+        <div class="card"><h3>🍎 Apple</h3><p>Rich in fiber and antioxidants. Helps improve digestion and supports heart health.</p><p><b>Recommended:</b> Daily consumption for immunity boost 💪</p></div>
+        <div class="card"><h3>🍌 Banana</h3><p>Provides instant energy and contains potassium which helps in muscle function.</p><p><b>Recommended:</b> Before or after workout ⚡</p></div>
+        <div class="card"><h3>🥛 Milk</h3><p>High in calcium and protein. Strengthens bones and teeth.</p><p><b>Recommended:</b> Daily for strong bones 🦴</p></div>
+        <div class="card"><h3>🍗 Chicken</h3><p>Excellent source of protein for muscle growth and body repair.</p><p><b>Recommended:</b> For gym and strength 💪</p></div>
+        <div class="card"><h3>💧 Water</h3><p>Essential for hydration, detoxification and proper body functioning.</p><p><b>Recommended:</b> 2-3 liters daily 🚰</p></div>
+        <div class="card"><h3>🥕 Carrot</h3><p>Rich in vitamin A which improves eyesight and skin health.</p><p><b>Recommended:</b> For glowing skin ✨</p></div>
+        <div class="card"><h3>🍊 Orange</h3><p>Loaded with vitamin C which boosts immunity and fights infections.</p><p><b>Recommended:</b> During cold &amp; flu 🤧</p></div>
+        <div class="card"><h3>🥬 Spinach</h3><p>Rich in iron and nutrients that improve blood and energy levels.</p><p><b>Recommended:</b> For weakness and anemia 🩸</p></div>
+        <div class="card"><h3>🥚 Eggs</h3><p>High-quality protein source for muscle repair and brain health.</p><p><b>Recommended:</b> Daily breakfast 🍳</p></div>
+        <div class="card"><h3>🧃 Fresh Juice</h3><p>Provides vitamins and keeps the body hydrated and refreshed.</p><p><b>Recommended:</b> Morning detox 🌞</p></div>
+        <div class="card"><h3>🥜 Dry Fruits</h3><p>Loaded with energy, vitamins and minerals for overall body strength.</p><p><b>Recommended:</b> For weakness &amp; energy boost ⚡</p></div>
+        <div class="card"><h3>🐟 Fish</h3><p>High in protein and omega-3 fatty acids which improve brain and heart health.</p><p><b>Recommended:</b> For brain power &amp; muscle growth 🧠💪</p></div>
+        <div class="card"><h3>🥑 Avocado</h3><p>Rich in healthy fats that support heart health and improve skin glow.</p><p><b>Recommended:</b> For weight gain &amp; healthy skin ✨</p></div>
+        <div class="card"><h3>🍯 Honey</h3><p>Natural sweetener that boosts immunity and soothes throat.</p><p><b>Recommended:</b> For cold &amp; natural energy 🌿</p></div>
+        <div class="card"><h3>🥦 Broccoli</h3><p>Rich in fiber and antioxidants that improve digestion and immunity.</p><p><b>Recommended:</b> For detox &amp; immunity 🛡️</p></div>
+    </div>
+</div>
+
+<!-- ============ HEALTH ============ -->
+<div id="health" class="page">
+    <div class="form-container">
+        <h1>Health Checkup</h1>
+        <form onsubmit="analyzeHealth(event)">
+            <input type="number" id="age" placeholder="Enter Age">
+            <div class="symptom-grid">
+                <label><input type="checkbox" name="symptoms" value="fever"> Fever</label>
+                <label><input type="checkbox" name="symptoms" value="cough"> Cough</label>
+                <label><input type="checkbox" name="symptoms" value="fatigue"> Fatigue</label>
+                <label><input type="checkbox" name="symptoms" value="headache"> Headache</label>
+                <label><input type="checkbox" name="symptoms" value="dizziness"> Dizziness</label>
+                <label><input type="checkbox" name="symptoms" value="nausea"> Nausea</label>
+                <label><input type="checkbox" name="symptoms" value="vomiting"> Vomiting</label>
+                <label><input type="checkbox" name="symptoms" value="acidity"> Acidity</label>
+                <label><input type="checkbox" name="symptoms" value="body pain"> Body Pain</label>
+                <label><input type="checkbox" name="symptoms" value="weakness"> Weakness</label>
+                <label><input type="checkbox" name="symptoms" value="sleep problems"> Sleep Problems</label>
+                <label><input type="checkbox" name="symptoms" value="anxiety"> Anxiety</label>
+                <label><input type="checkbox" name="symptoms" value="chest pain"> Chest Pain</label>
+                <label><input type="checkbox" name="symptoms" value="breathing issue"> Breathing Issue</label>
+                <label><input type="checkbox" name="symptoms" value="loss of appetite"> Loss of Appetite</label>
+            </div>
+            <select id="duration">
+                <option>1-2 days</option>
+                <option>3-5 days</option>
+                <option>1 week+</option>
+            </select>
+            <br>
+            <button type="submit">Analyze</button>
+        </form>
+    </div>
+</div>
+
+<!-- ============ HEALTH RESULT ============ -->
+<div id="health-result" class="page">
+    <h1 style="text-align:center;">🩺 Health Report</h1>
+    <div class="result-box">
+        <div class="result-section">
+            <h3>🧠 Possible Condition</h3>
+            <div id="result-conditions"></div>
+        </div>
+        <div class="result-section">
+            <h3>⚠️ Risk Level</h3>
+            <p id="result-risk"></p>
+        </div>
+        <div class="result-section">
+            <h3>💡 Suggestions</h3>
+            <div id="result-suggestions"></div>
+        </div>
+        <div style="text-align:center;">
+            <a class="btn" onclick="showPage('health')">🔁 Check Again</a>
+        </div>
+    </div>
+</div>
+
+<!-- ============ DIET ============ -->
+<div id="diet" class="page">
+    <h1 style="text-align:center;">🍎 Diet Analyzer</h1>
+    <div class="form-box">
+        <form onsubmit="analyzeDiet(event)">
+            <input type="file" name="food_image" required>
+            <select id="food_type" required>
+                <option value="">Select Food Type</option>
+                <option value="apple">Apple / Fruit</option>
+                <option value="rice">Rice</option>
+                <option value="milk">Milk</option>
+                <option value="burger">Burger / Junk Food</option>
+                <option value="chicken">Chicken / Protein</option>
+            </select>
+            <br>
+            <button type="submit">Analyze Food</button>
+        </form>
+    </div>
+</div>
+
+<!-- ============ DIET RESULT ============ -->
+<div id="diet-result" class="page">
+    <h1 style="text-align:center;">🍽️ Diet Report</h1>
+    <div class="form-box" style="text-align:left;">
+        <p><b>Food:</b> <span id="d-food"></span></p>
+        <p><b>Protein:</b> <span id="d-protein"></span></p>
+        <p><b>Carbs:</b> <span id="d-carbs"></span></p>
+        <p><b>Fiber:</b> <span id="d-fiber"></span></p>
+        <p><b>Calories:</b> <span id="d-calories"></span></p>
+        <hr style="margin: 20px 0; border: 1px solid #444;">
+        <p><b>💡 Suggestion:</b> <span id="d-suggestion"></span></p>
+        <div style="text-align:center;">
+            <a class="btn" onclick="showPage('diet')">🔁 Check Again</a>
+        </div>
+    </div>
+</div>
+
+<!-- ============ BMI ============ -->
+<div id="bmi" class="page">
+    <h1 style="text-align:center;">⚖️ Body Check (BMI)</h1>
+    <div class="form-box">
+        <form onsubmit="calcBMI(event)">
+            <input type="number" id="height" placeholder="Enter Height (cm)" required>
+            <input type="number" id="weight" placeholder="Enter Weight (kg)" required>
+            <br>
+            <button type="submit">Check BMI</button>
+        </form>
+        <div id="bmi-result"></div>
+    </div>
+</div>
+
+<script>
+function showPage(id) {
+    document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+    document.getElementById(id).classList.add('active');
+    window.scrollTo(0, 0);
+}
+
+/* ============ HEALTH LOGIC ============ */
+function analyzeHealth(e) {
+    e.preventDefault();
+    const selected = Array.from(
+        document.querySelectorAll('input[name="symptoms"]:checked')
+    ).map(c => c.value);
+
+    const results = [];
+    const suggestions = [];
+    let risk = "Low 🟢";
+
+    if (selected.includes("fever")) {
+        results.push("🤒 You may be experiencing an infection as fever is the body's natural response to fight bacteria or viruses.");
+        suggestions.push("💧 Stay hydrated and take proper rest.");
+    }
+    if (selected.includes("cough")) {
+        results.push("😷 Cough may indicate irritation or infection in your respiratory system.");
+        suggestions.push("☕ Avoid cold drinks and take warm fluids.");
+    }
+    if (selected.includes("headache")) {
+        results.push("😖 Headache can be caused by stress, dehydration, or lack of sleep.");
+        suggestions.push("🛌 Take proper rest and reduce screen time.");
+    }
+    if (selected.includes("fatigue") || selected.includes("weakness")) {
+        results.push("⚡ Persistent fatigue or weakness may indicate low energy levels or nutritional deficiency.");
+        suggestions.push("🍗 Eat protein-rich and nutritious food.");
+    }
+    if (selected.includes("vomiting") || selected.includes("nausea")) {
+        results.push("🤢 These symptoms may be related to digestive issues or possible food poisoning.");
+        suggestions.push("🚫 Avoid outside food and drink plenty of fluids.");
+    }
+    if (selected.includes("chest pain")) {
+        results.push("❤️ Chest pain could indicate a serious heart or lung condition and should not be ignored.");
+        suggestions.push("🚨 Consult a doctor immediately.");
+        risk = "High 🔴";
+    }
+    if (selected.includes("anxiety")) {
+        results.push("🧠 Anxiety may be linked to mental stress, overthinking, or emotional imbalance.");
+        suggestions.push("🧘 Practice meditation and relaxation techniques.");
+    }
+    if (selected.includes("sleep problems")) {
+        results.push("😴 Sleep problems may indicate poor sleep habits or stress.");
+        suggestions.push("🌙 Maintain a proper sleep schedule.");
+    }
+    if (selected.includes("acidity")) {
+        results.push("🔥 Acidity is often caused by unhealthy eating habits or spicy food.");
+        suggestions.push("🥗 Avoid oily and spicy food.");
+    }
+    if (selected.includes("hair fall")) {
+        results.push("💇 Hair fall can be due to nutritional deficiency or stress.");
+        suggestions.push("💊 Take vitamins and maintain a balanced diet.");
+    }
+    if (selected.includes("frequent urination")) {
+        results.push("🩸 Frequent urination may be a sign of high blood sugar or diabetes risk.");
+        suggestions.push("🧪 Check your blood sugar levels.");
+    }
+    if (selected.includes("body pain")) {
+        results.push("💪 Body pain may be due to fatigue, infection, or lack of proper rest.");
+        suggestions.push("🛌 Take rest and stay hydrated.");
+    }
+    if (selected.includes("stomach pain")) {
+        results.push("🍽️ Stomach pain may be related to digestive issues or unhealthy food intake.");
+        suggestions.push("🥣 Eat light food and avoid junk food.");
+    }
+    if (selected.includes("sore throat")) {
+        results.push("🗣️ Sore throat may indicate throat infection or cold.");
+        suggestions.push("🍵 Drink warm water and avoid cold items.");
+    }
+
+    if (selected.includes("fever") && selected.includes("cough")) {
+        results.push("🔥 Combination of fever and cough strongly indicates a viral or respiratory infection.");
+        suggestions.push("🛌 Take proper rest and consult a doctor if symptoms persist.");
+    }
+    if (selected.includes("fatigue") && selected.includes("hair fall")) {
+        results.push("⚠️ Fatigue along with hair fall may indicate nutritional deficiency.");
+        suggestions.push("🥦 Improve diet with vitamins and minerals.");
+    }
+
+    if (selected.length >= 4) risk = "Moderate 🟠";
+    if (selected.length >= 8) risk = "High 🔴";
+
+    if (results.length === 0) {
+        results.push("🙂 No major symptoms detected, but maintain a healthy lifestyle.");
+        suggestions.push("🥗 Eat healthy, exercise regularly, and stay hydrated.");
+    }
+
+    document.getElementById('result-conditions').innerHTML =
+        results.map(r => `<p>👉 ${r}</p>`).join('');
+    document.getElementById('result-suggestions').innerHTML =
+        suggestions.map(s => `<p>✔ ${s}</p>`).join('');
+    document.getElementById('result-risk').textContent = risk;
+
+    showPage('health-result');
+}
+
+/* ============ DIET LOGIC ============ */
+function analyzeDiet(e) {
+    e.preventDefault();
+    const food = document.getElementById('food_type').value;
+    let result;
+    if (food === "apple") {
+        result = { food: "Healthy Food 🥗", protein: "2g", carbs: "20g", fiber: "5g", calories: "90 kcal", suggestion: "Great choice! Keep eating clean 💚" };
+    } else if (food === "rice") {
+        result = { food: "Rice 🍚", protein: "4g", carbs: "45g", fiber: "1g", calories: "200 kcal", suggestion: "Eat with dal or veggies 👍" };
+    } else if (food === "milk") {
+        result = { food: "Milk 🥛", protein: "8g", carbs: "12g", fiber: "0g", calories: "150 kcal", suggestion: "Good for bones 💪" };
+    } else if (food === "burger") {
+        result = { food: "Junk Food 🍔", protein: "10g", carbs: "50g", fiber: "2g", calories: "400 kcal", suggestion: "Avoid junk frequently ❌" };
+    } else if (food === "chicken") {
+        result = { food: "Protein Rich Food 🍗", protein: "25g", carbs: "5g", fiber: "0g", calories: "250 kcal", suggestion: "Great for muscle growth 💪" };
+    } else {
+        result = { food: "Mixed Food 🍽", protein: "6g", carbs: "25g", fiber: "3g", calories: "180 kcal", suggestion: "Maintain balance ⚖️" };
+    }
+
+    document.getElementById('d-food').textContent = result.food;
+    document.getElementById('d-protein').textContent = result.protein;
+    document.getElementById('d-carbs').textContent = result.carbs;
+    document.getElementById('d-fiber').textContent = result.fiber;
+    document.getElementById('d-calories').textContent = result.calories;
+    document.getElementById('d-suggestion').textContent = result.suggestion;
+
+    showPage('diet-result');
+}
+
+/* ============ BMI LOGIC ============ */
+function calcBMI(e) {
+    e.preventDefault();
+    const height = parseFloat(document.getElementById('height').value);
+    const weight = parseFloat(document.getElementById('weight').value);
+    const bmi = weight / Math.pow(height / 100, 2);
+
+    let result, color, suggestion;
+    if (bmi < 18.5)        { result = "Underweight 😟";    color = "#00bcd4"; suggestion = "Eat more nutritious food 🍎"; }
+    else if (bmi < 25)     { result = "Normal Weight ✅"; color = "#00e676"; suggestion = "Maintain your lifestyle 💪"; }
+    else if (bmi < 30)     { result = "Overweight ⚠️";    color = "#ff9800"; suggestion = "Exercise more 🏃‍♀️"; }
+    else                   { result = "Obese ❌";          color = "#ff5252"; suggestion = "Consult doctor + strict diet 🥗"; }
+
+    document.getElementById('bmi-result').innerHTML = `
+        <div class="bmi-result-box" style="background:${color}; border:1px solid ${color};">
+            <h2 style="color:#fff;">${result}</h2>
+            <p><b>Your BMI:</b> ${bmi.toFixed(2)}</p>
+            <p>💡 ${suggestion}</p>
+        </div>
+    `;
+}
+</script>
+
+</body>
+</html>
